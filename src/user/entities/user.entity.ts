@@ -1,39 +1,63 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-import { 
-    Entity, 
-    PrimaryGeneratedColumn, 
-    Column, 
-    CreateDateColumn, 
-    UpdateDateColumn 
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
+import { Product } from '../../product/entities/product.entity';
+import { Request } from '../../request/entities/request.entity';
+import { Report } from '../../report/entities/report.entity';
+import { EventAnalytics } from '../../event-analytics/entities/event-analytics.entity';
 
 export enum UserRole {
-  ADMIN = 'admin',
   USER = 'user',
-  GUEST = 'guest',
+  ADMIN = 'admin',
 }
 
-@Entity({ name: 'users' })
+@Entity('users')
 export class User {
   @PrimaryGeneratedColumn('uuid')
-  id!: string;   // 👈 el "!" indica a TS que estará inicializado
+  user_id!: string;
 
   @Column({ unique: true })
   email!: string;
 
   @Column()
-  password!: string;
+  name!: string;
 
-  @Column({ type: 'enum', enum: UserRole, default: UserRole.GUEST })
+  @Column({ type: 'enum', enum: UserRole, default: UserRole.USER })
   role!: UserRole;
 
+  @Column({ default: false })
+  is_verified!: boolean;
+
+  @Column()
+  password!: string;
+
   @Column({ nullable: true })
-  name?: string;
+  zone_text?: string;
 
   @CreateDateColumn()
-  createdAt!: Date;
+  created_at!: Date;
 
   @UpdateDateColumn()
-  updatedAt!: Date;
+  updated_at!: Date;
+
+  // Relations
+  @OneToMany(() => Product, (product) => product.owner)
+  products: Product[] = [];
+
+  @OneToMany(() => Request, (request) => request.requester)
+  requests: Request[] = [];
+
+  @OneToMany(() => Report, (report) => report.reporter)
+  reports: Report[] = [];
+
+  @OneToMany(() => EventAnalytics, (event) => event.user)
+  events: EventAnalytics[] = [];
 }
