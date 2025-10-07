@@ -20,12 +20,12 @@ export class UserRepository{
     return await this.userRepository.findOneBy({ google_id: googleId });
   }*/
 
-  async findOne(id: string, options?: FindOneOptions<User>): Promise<User | null | undefined> {
-  return await this.userRepository.findOne({
-    where: { id },
-    ...options,
-  });
-}
+  async findOne(user_id: string, options?: FindOneOptions<User>): Promise<User | null | undefined> {
+    return await this.userRepository.findOne({
+      where: { user_id },
+      ...options,
+    });
+  }
 
   async findUserByEmail(email: string): Promise <User | null | undefined>{
     return await this.userRepository.findOne({
@@ -41,9 +41,9 @@ export class UserRepository{
     });
   }
 
-  async findUserWithGroups(id: string): Promise<User | null | undefined> {
+  async findUserWithGroups(user_id: string): Promise<User | null | undefined> {
     return await this.userRepository.findOne({
-      where: { id },
+      where: { user_id },
       relations: ['groups_created', 'memberships', 'memberships.group'],
     });
   }

@@ -50,14 +50,14 @@ export class User {
 
   // Relations
   @OneToMany(() => Product, (product) => product.owner)
-  products: Product[] = [];
+  products!: Product[] ;
 
   @OneToMany(() => Request, (request) => request.requester)
-  requests: Request[] = [];
+  requests!: Request[];
 
   @OneToMany(() => Report, (report) => report.reporter)
-  reports: Report[] = [];
+  reports!: Report[];
 
   @OneToMany(() => EventAnalytics, (event) => event.user)
-  events: EventAnalytics[] = [];
+  events!: EventAnalytics[];
 }
