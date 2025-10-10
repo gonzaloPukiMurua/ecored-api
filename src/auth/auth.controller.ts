@@ -25,12 +25,13 @@ export class AuthController {
   })
   async login(@Body() loginUserDto: LoginUserDto){
     const token = await this.authService.login(loginUserDto);
+    console.log(token)
     return {access_token: token}
   }
 
-  
   @Post('register')
   async register(@Body() createUserDto: CreateUserDto){
+    console.log("Estoy en auth/register")
     return await this.authService.register(createUserDto);
   }
 

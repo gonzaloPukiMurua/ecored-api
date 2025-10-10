@@ -1,6 +1,5 @@
 /* eslint-disable prettier/prettier */
 import { registerAs } from '@nestjs/config';
-//registrado en el modulo de configuracion personalizada de nest
 export default registerAs('jwt', () => {
   return {
     secret: process.env.JWT_SECRET,

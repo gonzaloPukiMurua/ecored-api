@@ -12,6 +12,8 @@ import { CategoryModule } from './category/category.module';
 import { RequestModule } from './request/request.module';
 import { DeliveryModule } from './delivery/delivery.module';
 import { ReportModule } from './report/report.module';
+import jwtConfig from './config/jwt.config';
+import { JwtModule } from '@nestjs/jwt';
 import { EventAnalyticsModule } from './event-analytics/event-analytics.module';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -19,7 +21,7 @@ import * as path from 'path';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: ['.env', '.env.example'],
+      envFilePath: ['.env', '.env.example', '.env.development'],
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
@@ -50,7 +52,9 @@ import * as path from 'path';
           }
         },
       }),
-    AuthModule, 
+    AuthModule,
+    ConfigModule.forFeature(jwtConfig),
+    JwtModule.registerAsync(jwtConfig.asProvider()), 
     UserModule, 
     ProductModule, 
     ProductPhotosModule, 
