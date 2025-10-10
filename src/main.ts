@@ -30,6 +30,13 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
   
   app.setGlobalPrefix('api');
+  app.useGlobalInterceptors({
+  intercept(context, next) {
+      const req = context.switchToHttp().getRequest();
+      console.log(`📡 ${req.method} ${req.url}`);
+      return next.handle();
+    },
+  });
   await app.listen(port, () => console.log("Puerto: ", port));
 }
 bootstrap();

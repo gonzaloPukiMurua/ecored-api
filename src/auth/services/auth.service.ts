@@ -50,6 +50,12 @@ export class AuthService {
         }
         const newUser = await this.userService.createUserWithHashedPassword(credentials);
         
-        return newUser
+        return {
+            user_id: newUser.user_id,
+            email: newUser.email,
+            name: newUser.name,
+            role: newUser.role,
+            created_at: newUser.created_at,
+        };
     }
 }

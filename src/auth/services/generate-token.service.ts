@@ -21,7 +21,7 @@ export class GenerateTokensProvider {
       {
         //payload
         sub: user.user_id,
-        id: user.user_id,
+        user_id: user.user_id,
         email: user.email,
         role: user.role,
       },

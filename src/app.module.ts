@@ -17,6 +17,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { EventAnalyticsModule } from './event-analytics/event-analytics.module';
 import * as fs from 'fs';
 import * as path from 'path';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthenticationGuard } from './auth/guards/authentication.guard';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -65,6 +67,9 @@ import * as path from 'path';
     EventAnalyticsModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    { provide: APP_GUARD, useClass: AuthenticationGuard },
+  ],
 })
 export class AppModule {}
